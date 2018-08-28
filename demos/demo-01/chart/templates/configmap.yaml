@@ -36,6 +36,8 @@ data:
               location / {
                   root   /usr/share/nginx/html;
                   index  index.html index.htm;
+                  sub_filter 'data-api-url="http://localhost:5000/"' 'data-api-url="http://$http_host/api/"'; # rewrite the api URL
+                  sub_filter_types text/html;
               }
 
               # redirect server error pages to the static page /50x.html
@@ -45,10 +47,17 @@ data:
                   root   /usr/share/nginx/html;
               }
 
-              # Pass /api through to the API endpoint
+              # proxy to the API on /api/...
+              rewrite ^/api$ http://$http_host/api/ redirect;
               location /api/ {
+                  proxy_set_header Accept-Encoding "";
                   proxy_pass     http://127.0.0.1:{{ .Values.webApi.port }}/;
-                  proxy_redirect false;
+                  # proxy_redirect default;
+
+                  sub_filter 'href="/' 'href="/api/'; # rewrite paths to API endpoints in the index page
+                  sub_filter_types text/html;
+                  sub_filter_once off;
+
               }
 
           }
