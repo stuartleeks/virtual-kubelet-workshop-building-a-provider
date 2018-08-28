@@ -4,9 +4,25 @@
   http{{ if $.Values.ingress.tls }}s{{ end }}://{{ . }}{{ $.Values.ingress.path }}
 {{- end }}
 {{- else if contains "NodePort" .Values.service.type }}
-  export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ template "demo-01.fullname" . }})
-  export NODE_IP=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}")
-  echo http://$NODE_IP:$NODE_PORT
+  If running on minikube then run these commands in bash
+    export uiPort=$(kubectl get service --namespace {{ .Release.Namespace }} -l "app={{ template "demo-01.name" . }},release={{ .Release.Name }}" -o jsonpath={.items[0].spec.ports[0].nodePort}) && \
+    minikubeIp=$(sudo minikube ip) && \
+    echo "The web UI is listening on  http://$minikubeIp:${uiPort}" && \
+    echo "The web API is listening on http://$minikubeIp:${uiPort}/api/"
+
+  If running on Docker for Mac then run these commands in bash
+    export uiPort=$(kubectl get service --namespace {{ .Release.Namespace }} -l "app={{ template "demo-01.name" . }},release={{ .Release.Name }}" -o jsonpath={.items[0].spec.ports[0].nodePort}) && \
+    echo "The web UI is listening on  http://host.docker.internal:${uiPort}"
+    echo "The web API is listening on http://host.docker.internal:${uiPort}/api/"
+
+
+  If running on Docker for Windows then run these commands in PowerShell
+    $uiPort=$(kubectl get service --namespace {{ .Release.Namespace }} -l "app={{ template "demo-01.name" . }},release={{ .Release.Name }}" -o jsonpath={.items[0].spec.ports[0].nodePort}) && \
+    echo "The web UI is listening on  http://host.docker.internal:${uiPort}"
+    echo "The web API is listening on http://host.docker.internal:${uiPort}/api/"
+
+
+  
 {{- else if contains "LoadBalancer" .Values.service.type }}
      NOTE: It may take a few minutes for the LoadBalancer IP to be available.
            You can watch the status of by running 'kubectl get svc -w {{ template "demo-01.fullname" . }}'
