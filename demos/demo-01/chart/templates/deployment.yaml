@@ -1,0 +1,51 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "demo-01.fullname" . }}
+  labels:
+    app: {{ template "demo-01.name" . }}
+    chart: {{ template "demo-01.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "demo-01.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "demo-01.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: web-api
+          image: "{{ .Values.webApi.image.repository }}:{{ .Values.webApi.image.tag }}"
+          imagePullPolicy: {{ .Values.webApi.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.webApi.port}}
+              protocol: TCP
+        - name: web-ui
+          image: "{{ .Values.webUi.image.repository }}:{{ .Values.webUi.image.tag }}"
+          imagePullPolicy: {{ .Values.webUi.image.pullPolicy }}
+          ports:
+            - containerPort: 80
+              protocol: TCP
+              name: http
+          volumeMounts:
+            - name: webui-nginx-config
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+        - name: virtual-kubelet
+          image: "{{ .Values.virtualKubelet.image.repository }}:{{ .Values.virtualKubelet.image.tag }}"
+          imagePullPolicy: {{ .Values.virtualKubelet.image.pullPolicy }}
+          env:
+            - name: WEB_ENDPOINT_URL
+              value: http://localhost:{{ .Values.webApi.port }}
+          command: ["virtual-kubelet"]
+          args: ["--provider", "web"]
+      volumes:
+        - name: webui-nginx-config 
+          configMap:
+            name: webui-config # TODO use deployment name
