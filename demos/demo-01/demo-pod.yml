@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: helloworld
+spec:
+  containers:
+  - image: docker.io/microsoft/aci-helloworld
+    imagePullPolicy: Always
+    name: helloworld
+    resources:
+      requests:
+        memory: 1G
+        cpu: 1
+    ports:
+    - containerPort: 80
+      name: http
+      protocol: TCP
+    - containerPort: 443
+      name: https
+  dnsPolicy: ClusterFirst
+  nodeName: virtual-kubelet
+  tolerations:
+  - key: virtual-kubelet.io/provider
+    value: web
+    effect: NoSchedule
