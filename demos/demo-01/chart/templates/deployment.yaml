@@ -26,6 +26,13 @@ spec:
           ports:
             - containerPort: {{ .Values.webApi.port}}
               protocol: TCP
+          env:
+            - name: KUBELET_PORT
+              value: "10250"
+            - name: VKUBELET_POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
         - name: web-ui
           image: "{{ .Values.webUi.image.repository }}:{{ .Values.webUi.image.tag }}"
           imagePullPolicy: {{ .Values.webUi.image.pullPolicy }}
@@ -43,9 +50,25 @@ spec:
           env:
             - name: WEB_ENDPOINT_URL
               value: http://localhost:{{ .Values.webApi.port }}
+            - name: KUBELET_PORT
+              value: "10250"
+            - name: APISERVER_CERT_LOCATION
+              value: /etc/virtual-kubelet/cert.pem
+            - name: APISERVER_KEY_LOCATION
+              value: /etc/virtual-kubelet/key.pem
+            - name: VKUBELET_POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+          volumeMounts:
+            - name: credentials
+              mountPath: "/etc/virtual-kubelet"
           command: ["virtual-kubelet"]
           args: ["--provider", "web", "--nodename", {{ default "virtual-kubelet-web" .Values.virtualKubelet.nodeName | quote }}]
       volumes:
         - name: webui-nginx-config 
           configMap:
             name: webui-config # TODO use deployment name
+        - name: credentials
+          secret:
+            secretName: {{ template "demo-01.fullname" . }}
