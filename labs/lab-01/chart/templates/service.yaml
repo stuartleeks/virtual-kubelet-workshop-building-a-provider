@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "lab-01.fullname" . }}
+  labels:
+    app: {{ template "lab-01.name" . }}
+    chart: {{ template "lab-01.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+  selector:
+    app: {{ template "lab-01.name" . }}
+    release: {{ .Release.Name }}
