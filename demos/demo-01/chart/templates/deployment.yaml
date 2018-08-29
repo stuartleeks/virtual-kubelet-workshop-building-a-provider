@@ -44,7 +44,7 @@ spec:
             - name: WEB_ENDPOINT_URL
               value: http://localhost:{{ .Values.webApi.port }}
           command: ["virtual-kubelet"]
-          args: ["--provider", "web"]
+          args: ["--provider", "web", "--nodename", {{ default "virtual-kubelet-web" .Values.virtualKubelet.nodeName | quote }}]
       volumes:
         - name: webui-nginx-config 
           configMap:

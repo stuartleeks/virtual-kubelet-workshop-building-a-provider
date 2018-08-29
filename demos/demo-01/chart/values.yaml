@@ -46,3 +46,4 @@ virtualKubelet:
     repository: stuartleeks/virtual-kubelet
     tag: latest
     pullPolicy: Always
+  nodeName: virtual-kubelet-web

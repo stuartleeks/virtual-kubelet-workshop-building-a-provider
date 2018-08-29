@@ -18,7 +18,8 @@ spec:
     - containerPort: 443
       name: https
   dnsPolicy: ClusterFirst
-  nodeName: virtual-kubelet
+  nodeSelector:
+    kubernetes.io/hostname: virtual-kubelet-web
   tolerations:
   - key: virtual-kubelet.io/provider
     value: web

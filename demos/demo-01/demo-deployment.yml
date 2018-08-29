@@ -28,7 +28,8 @@ spec:
           protocol: TCP
       restartPolicy: Always
       dnsPolicy: ClusterFirst
-      nodeName: virtual-kubelet
+      nodeSelector:
+        kubernetes.io/hostname: virtual-kubelet-web
       tolerations:
       - key: virtual-kubelet.io/provider
         value: web
