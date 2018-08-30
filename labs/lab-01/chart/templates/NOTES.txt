@@ -3,19 +3,16 @@
   If running on minikube then run these commands in bash
     export uiPort=$(kubectl get service --namespace {{ .Release.Namespace }} -l "app={{ template "name" . }},release={{ .Release.Name }}" -o jsonpath={.items[0].spec.ports[0].nodePort}) && \
     minikubeIp=$(sudo minikube ip) && \
-    echo "The web UI is listening on  http://$minikubeIp:${uiPort}" && \
-    echo "The web API is listening on http://$minikubeIp:${uiPort}/api/"
+    echo "The web UI is listening on  http://$minikubeIp:${uiPort}"
 
   If running on Docker for Mac then run these commands in bash
     export uiPort=$(kubectl get service --namespace {{ .Release.Namespace }} -l "app={{ template "name" . }},release={{ .Release.Name }}" -o jsonpath={.items[0].spec.ports[0].nodePort}) && \
-    echo "The web UI is listening on  http://host.docker.internal:${uiPort}" && \
-    echo "The web API is listening on http://host.docker.internal:${uiPort}/api/"
+    echo "The web UI is listening on  http://host.docker.internal:${uiPort}"
 
 
   If running on Docker for Windows then run these commands in PowerShell
     $uiPort=$(kubectl get service --namespace {{ .Release.Namespace }} -l "app={{ template "name" . }},release={{ .Release.Name }}" -o jsonpath="{.items[0].spec.ports[0].nodePort}"); `
-    echo "The web UI is listening on  http://host.docker.internal:${uiPort}"; `
-    echo "The web API is listening on http://host.docker.internal:${uiPort}/api/"
+    echo "The web UI is listening on  http://host.docker.internal:${uiPort}";
 
   
 {{- else if contains "LoadBalancer" .Values.service.type }}
