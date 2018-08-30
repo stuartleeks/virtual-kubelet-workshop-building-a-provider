@@ -44,7 +44,35 @@ Once you have these methods working you can deploy Virtual Kubelet and the Web U
 
 ## Deploy Virtual Kubelet
 
-For this lab we will create an HTTP API on our local machine. We will deploy Virtual Kubelet and the Web UI into the cluster and configure them to connect to the local API.
+For this lab we will create an HTTP API on our local machine. We will deploy Virtual Kubelet and the Web UI into the cluster and configure them to connect to the local API:
+
+```diagram
++-------------------------------------------------------------+      +----------------------------------------+
+|                                                             |      |                                        |
+| Kubernetes                                                  |      |     Your local machine                 |
+|                                                             |      |                                        |
+| +------------+    +---------------------------------+       |      |                                        |
+| |            |    |                                 |       |      |                                        |
+| |  Control   |    |  Kubernetes Pod                 |       |      |                                        |
+| |  Plane     |    |                                 |       |      |                                        |
+| |            |    |   +------------------------+    |       |      |     +------------------------------+   |
+| |            |    |   |                        |    |       |  HTTP|     |                              |   |
+| |            +<------>+  Virtual Kubelet: Web  +<-+--------------------->+   The API that you write :+) |   |
+| |            |    |   |                        |  | |       |      |     |                              |   |
+| |            |    |   +------------------------+  | |       |      |     +------------------------------+   |
+| |            |    |                               | |       |      |                                        |
+| |            |    |   +------------------------+  | |       |      |                                        |
+| |            |    |   |                        |  | |       |      |                                        |
+| |            |    |   |  Web UI                +<-+ |       |      |                                        |
+| |            |    |   |                        |    |       |      |                                        |
+| |            |    |   +------------------------+    |       |      |                                        |
+| |            |    |                                 |       |      |                                        |
+| +------------+    +---------------------------------+       |      |                                        |
+|                                                             |      |                                        |
++-------------------------------------------------------------+      +----------------------------------------+
+
+
+```
 
 To deploy, run
 
