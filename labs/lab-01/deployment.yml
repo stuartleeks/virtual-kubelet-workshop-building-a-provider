@@ -1,0 +1,36 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels: 
+    run: helloworld2
+  name: helloworld2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: helloworld2
+  template:
+    metadata:
+      labels:
+        run: helloworld2
+    spec:
+      containers:
+      - image: docker.io/microsoft/aci-helloworld
+        imagePullPolicy: Always
+        name: helloworld2
+        resources:
+          requests:
+            memory: 1G
+            cpu: 1
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+      restartPolicy: Always
+      dnsPolicy: ClusterFirst
+      nodeSelector:
+        kubernetes.io/hostname: virtual-kubelet-web
+      tolerations:
+      - key: virtual-kubelet.io/provider
+        value: web
+        effect: NoSchedule
