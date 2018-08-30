@@ -97,3 +97,18 @@ Now that you have the minimal API that is required to start up Virtual Kubelet, 
 To test your implementation, try deploying a pod. There is a `deployment.yaml` file that you can use if you wish: `kubectl apply -f deployment.yaml`.
 
 If everything is working then you should see the pod shown in the web UI, and in `kubectl get pods` output.
+
+If your output looks like the output below then you need to set the pod status.
+
+```bash
+NAME                          READY     STATUS           RESTARTS   AGE
+helloworld2-c778786f5-24k66   0/1       ProviderFailed   0          13s
+helloworld2-c778786f5-29vsf   0/1       ProviderFailed   0          15s
+helloworld2-c778786f5-2b6nz   0/1       ProviderFailed   0          18s
+```
+
+## Handle UpdatePod and DeletePod
+
+Once you can create a pod it is good to be able to delete it (`/deletePod`). After implementing this method you should be able to delete a deployment/pod via `kubectl` and see it removed from the pod list in `kubectl get pods` output and the Web UI.
+
+As a bonus, if you implement the `/updatePod` endpoint you will be able to mark a pod as failed using the "Stop Pod" button in the Web UI, and see Kubernetes reschedule it (assuming it is in a deployment/replica set)
