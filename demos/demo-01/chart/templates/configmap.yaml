@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  app: {{ template "demo-01.name" . }}
+  app: {{ template "name" . }}
   name: webui-config
 data:
     nginx.conf: |-

@@ -1,22 +1,22 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: {{ template "demo-01.fullname" . }}
+  name: {{ template "fullname" . }}
   labels:
-    app: {{ template "demo-01.name" . }}
-    chart: {{ template "demo-01.chart" . }}
+    app: {{ template "name" . }}
+    chart: {{ template "chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ template "demo-01.name" . }}
+      app: {{ template "name" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ template "demo-01.name" . }}
+        app: {{ template "name" . }}
         release: {{ .Release.Name }}
     spec:
       containers:
@@ -71,4 +71,4 @@ spec:
             name: webui-config # TODO use deployment name
         - name: credentials
           secret:
-            secretName: {{ template "demo-01.fullname" . }}
+            secretName: {{ template "fullname" . }}
