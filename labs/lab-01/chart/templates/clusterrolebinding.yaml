@@ -9,6 +9,6 @@ roleRef:
  name: cluster-admin
 subjects:
  - kind: ServiceAccount
-   name: default
-   namespace: default
+   name: {{ template "fullname" . }}
+   namespace: {{ .Release.Namespace }}
 {{- end }}
