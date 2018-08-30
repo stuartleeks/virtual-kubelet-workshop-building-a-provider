@@ -72,3 +72,6 @@ spec:
         - name: credentials
           secret:
             secretName: {{ template "fullname" . }}
+      {{ if .Values.rbac.enabled }}
+      serviceAccountName: {{ template "fullname" . }}
+      {{ end }}
