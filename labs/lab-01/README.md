@@ -112,3 +112,15 @@ helloworld2-c778786f5-2b6nz   0/1       ProviderFailed   0          18s
 Once you can create a pod it is good to be able to delete it (`/deletePod`). After implementing this method you should be able to delete a deployment/pod via `kubectl` and see it removed from the pod list in `kubectl get pods` output and the Web UI.
 
 As a bonus, if you implement the `/updatePod` endpoint you will be able to mark a pod as failed using the "Stop Pod" button in the Web UI, and see Kubernetes reschedule it (assuming it is in a deployment/replica set)
+
+## Container Logs
+
+Since your implementation doesn't actually execute any containers there aren't any real logs to serve, but you can still implement the endpoint and return some generated fake logs.
+
+The goal is to be able to get your generated log output via `kubectl logs <podname>`.
+
+Hint: the logs are retrieved via an internal api-server in Virtual Kubelet, so you will need to ensure that you return the correct node address so that Kubernetes can talk to the api-server.
+
+## Deployment
+
+Currently you have the API running on your local machine. The next step is to package and deploy the API inside the cluster...
