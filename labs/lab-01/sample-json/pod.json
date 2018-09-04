@@ -1,0 +1,90 @@
+{
+    "metadata": {
+        "name": "name",
+        "namespace": "namespace",
+        "selfLink": "selflink",
+        "uid": "00000000-0000-0000-0000-000000000000",
+        "resourceVersion": "version",
+        "creationTimestamp": "2018-08-30T11:52:56Z",
+        "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "version"
+        }
+    },
+    "spec": {
+        "volumes": [
+            {
+                "name": "name",
+                "secret": {
+                    "secretName": "name",
+                    "defaultMode": 0
+                }
+            }
+        ],
+        "containers": [
+            {
+                "name": "name",
+                "image": "image",
+                "ports": [
+                    {
+                        "name": "name",
+                        "containerPort": 0,
+                        "protocol": "tcp"
+                    }
+                ],
+                "imagePullPolicy": "Always"
+            }
+        ],
+        "restartPolicy": "Always",
+        "terminationGracePeriodSeconds": 0,
+        "dnsPolicy": "dns",
+        "serviceAccount": "account",
+        "nodeName": "name",
+        "securityContext": {},
+        "schedulerName": "name",
+        "tolerations": [
+            {
+                "key": "key",
+                "value": "value",
+                "effect": "effect",
+                "operator": "operator",
+                "tolerationSeconds": 0
+            }
+        ]
+    },
+    "status": {
+        "phase": "Unknown",
+        "qosClass": "class",
+        "conditions": [
+            {
+                "type": "PodScheduled",
+                "status": "Unknown"
+            }
+        ],
+        "containerStatuses": [
+            {
+                "name": "name",
+                "image": "image",
+                "ready": false,
+                "restartCount": 0,
+                "state": {
+                    "waiting": {
+                        "reason": "reason",
+                        "message": "message"
+                    },
+                    "running": {
+                        "startedAt": "2018-08-30T11:52:56Z"
+                    },
+                    "terminated": {
+                        "exitCode": 0,
+                        "signal": 0,
+                        "reason": "reason",
+                        "message": "message",
+                        "startedAt": "2018-08-30T11:52:56Z",
+                        "finishedAt": "2018-08-30T11:52:56Z",
+                        "containerID": "id"
+                    }
+                }
+            }
+        ]
+    }
+}
