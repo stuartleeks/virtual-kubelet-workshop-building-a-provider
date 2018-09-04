@@ -80,13 +80,13 @@ To deploy, run
 helm install chart/ --name vk --set webApiUrl=<your url>
 ```
 
-You need to replace the URL with a URL for your API that is addressable from inside the cluster.
+NOTE: you need to replace the URL with a URL for your API that is addressable from inside the cluster.
 
 For example, if running with minikube then you can get the minikube IP Address via `minikube ip` and then lookup the corresponding local address with `ifconfig`.
 
-**TODO what about Docker for Windows/Mac??**
+On Docker for Windows, get the IP address for `host.docker.internal` and use that (specifying the appropriate port): e.g. `http://192.168.1.171:3000`
 
-Now you should be able to run `kubectl get nodes` and see your Virtual Kubelet node listed.
+Now that you have deployed Virtual Kubelet, you should be able to run `kubectl get nodes` and see your Virtual Kubelet node listed.
 
 You should also be able to follow the instructions output from the `helm install` step above to get the Web UI URL. If you load that in your browser it should connect to the API as specified
 
