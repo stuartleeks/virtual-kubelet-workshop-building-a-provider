@@ -1,0 +1,10 @@
+[
+    {
+        "type": "Ready",
+        "status": "True",
+        "lastHeartbeatTime": "2018-08-30T13:25:37Z",
+        "lastTransitionTime": "2018-08-30T13:25:37Z",
+        "reason": "KubeletReady",
+        "message": "At your service"
+    }
+]
