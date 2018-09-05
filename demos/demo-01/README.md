@@ -11,6 +11,30 @@
 > - helm
 >
 
+## Overview
+
+This demo will show the mock Virtual Kubelet web api. We will deploy a pod with Virtual Kubelet, web api and web ui for visualising the API data:
+
+```
++-----------------+      +--------------------------------------------------------------------------+
+|                 |      |  Virtual Kubelet Pod                                                     |
+|  Kubernetes     |      |                                                                          |
+|  Control        |      |    +---------------------------+          +--------------------------+   |
+|  Plane          |      |    |                           |   HTTP   |                          |   |
+|                 | <-------> |   Virtual Kubelet: Web    | <------> |  Web API implementation  |   |
+|                 |      |    |                           |     +--> |                          |   |
++-----------------+      |    +---------------------------+     |    +--------------------------+   |
+                         |                                      |                                   |
++-----------------+      |    +---------------------------+     |                                   |
+|                 |      |    |                           |     |                                   |
+|  Service to     |   HTTP    |   Web UI                  +-----+                                   |
+|  expose Web UI  | <----+--> |                           |   proxy                                 |
+|                 |      |    +---------------------------+   to API                                |
+|                 |      |                                                                          |
+|                 |      |                                                                          |
++-----------------+      +--------------------------------------------------------------------------+
+```
+
 ## Deploy Virtual Kubelet
 
 For this demo we're going to deploy a pod that runs the following containers
