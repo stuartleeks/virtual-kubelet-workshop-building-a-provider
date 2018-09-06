@@ -1,7 +1,5 @@
 # Lab 1 - Creating a web provider
 
-**TODO Need to flesh this out**
-
 > **Requirements**
 >
 > A Kubernetes cluster (e.g. minikube or Docker for Windows/Mac)
@@ -80,13 +78,13 @@ To deploy, run
 helm install chart/ --name vk --set webApiUrl=<your url>
 ```
 
-You need to replace the URL with a URL for your API that is addressable from inside the cluster.
+NOTE: you need to replace the URL with a URL for your API that is addressable from inside the cluster.
 
 For example, if running with minikube then you can get the minikube IP Address via `minikube ip` and then lookup the corresponding local address with `ifconfig`.
 
-**TODO what about Docker for Windows/Mac??**
+On Docker for Windows, get the IP address for `host.docker.internal` and use that (specifying the appropriate port): e.g. `http://192.168.1.171:3000`
 
-Now you should be able to run `kubectl get nodes` and see your Virtual Kubelet node listed.
+Now that you have deployed Virtual Kubelet, you should be able to run `kubectl get nodes` and see your Virtual Kubelet node listed.
 
 You should also be able to follow the instructions output from the `helm install` step above to get the Web UI URL. If you load that in your browser it should connect to the API as specified
 
@@ -94,24 +92,24 @@ You should also be able to follow the instructions output from the `helm install
 
 Now that you have the minimal API that is required to start up Virtual Kubelet, the next step is to add the ability to create a pod. I.e. implement the `/createPod` endpoint. Once Kubernetes has started a pod on the Virtual Kubelet node it will also query its status via the `/getPodStatus` endpoint.
 
-To test your implementation, try deploying a pod. There is a `deployment.yaml` file that you can use if you wish: `kubectl apply -f deployment.yaml`.
+To test your implementation, try deploying a pod. There is a `pod.yaml` file that you can use if you wish: `kubectl apply -f pod.yaml`.
 
 If everything is working then you should see the pod shown in the web UI, and in `kubectl get pods` output.
 
-If your output looks like the output below then you need to set the pod status.
+If your output looks like the output below then you need to set the pod status to let Kubernetes know that you  have received the request and are running the pod.
 
 ```bash
-NAME                          READY     STATUS           RESTARTS   AGE
-helloworld2-c778786f5-24k66   0/1       ProviderFailed   0          13s
-helloworld2-c778786f5-29vsf   0/1       ProviderFailed   0          15s
-helloworld2-c778786f5-2b6nz   0/1       ProviderFailed   0          18s
+NAME               READY     STATUS           RESTARTS   AGE
+helloworld-24k66   0/1       ProviderFailed   0          13s
 ```
+
+If you have reached this state then the simplest way to clean things up is to forcefully delete the pod (`kubectl delete pod helloworld --force --grace-period=0`). Ordinarily this is not a good idea as it can leave orphaned resources, but since we're not actually executing anything that doesn't apply to us.
 
 ## Handle UpdatePod and DeletePod
 
 Once you can create a pod it is good to be able to delete it (`/deletePod`). After implementing this method you should be able to delete a deployment/pod via `kubectl` and see it removed from the pod list in `kubectl get pods` output and the Web UI.
 
-As a bonus, if you implement the `/updatePod` endpoint you will be able to mark a pod as failed using the "Stop Pod" button in the Web UI, and see Kubernetes reschedule it (assuming it is in a deployment/replica set)
+As a bonus, if you implement the `/updatePod` endpoint you will be able to mark a pod as failed using the "Stop Pod" button in the Web UI, and see Kubernetes reschedule it (assuming it is in a deployment/replica set). There is a `deployment.yml` in the lab folder that you can deploy to test this (`kubectl apply -f deployment.yml`).
 
 ## Container Logs
 
