@@ -1,7 +1,5 @@
 # Lab 1 - Creating a web provider
 
-**TODO Need to flesh this out**
-
 > **Requirements**
 >
 > A Kubernetes cluster (e.g. minikube or Docker for Windows/Mac)
