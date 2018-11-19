@@ -6,3 +6,4 @@ For the workshop it is recommended that you attempt to create the provider imple
  * [Go](https://github.com/stuartleeks/virtual-kubelet-web-mock-go)
  * [Node.js](https://github.com/stuartleeks/virtual-kubelet-web-mock-nodejs)
  * [C#](https://github.com/stuartleeks/virtual-kubelet-web-mock-csharp)
+ * [Python](https://github.com/stuartleeks/virtual-kubelet-web-mock-python)
