@@ -92,7 +92,7 @@ You should also be able to follow the instructions output from the `helm install
 
 Now that you have the minimal API that is required to start up Virtual Kubelet, the next step is to add the ability to create a pod. I.e. implement the `/createPod` endpoint. Once Kubernetes has started a pod on the Virtual Kubelet node it will also query its status via the `/getPodStatus` endpoint.
 
-To test your implementation, try deploying a pod. There is a `pod.yaml` file that you can use if you wish: `kubectl apply -f pod.yaml`.
+To test your implementation, try deploying a pod. There is a `pod.yml` file that you can use if you wish: `kubectl apply -f pod.yml`.
 
 If everything is working then you should see the pod shown in the web UI, and in `kubectl get pods` output.
 
